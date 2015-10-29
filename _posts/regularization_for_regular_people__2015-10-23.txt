@@ -1,0 +1,201 @@
+Regularization for regular people:
+==================================
+
+The idea of "regularization" is often spoken about in the world 
+of Machine Learning as a way of "tuning" models or "preventing overfitting",
+but the precise meaning of this is usually not spoken about, or at least 
+not in terms that any regular person would be happy to hear.  
+
+In this blog post, we'll take a look at the meaning of regularization 
+and work out in full detail all of the nuances of how various kinds 
+(let's call them "flavors") of regualrization allows us to answer the question:
+
+       What is the "best" line going through a given point in the plane?
+
+
+The Spirit of Regularization:
+
+We live in a modern and complicated world.  Things are happening around us everyday, 
+and the more complicated the world gets the more choices we have to make.  Choices 
+are usually advertised as a good thing, but at least from time-to-time they can be 
+overwhelming.  Like when you walk into a supermarket thinking to yourself "I just 
+want to get some bread and something to drink", but then find yourself confronted 
+with dozens of kinds to choose from.  The problem changes from finding *something* 
+to drink to finding the *best* thing to drink, and so you spend at least 5 minutes 
+looking at all of the choices to evaluate which of these might be the best.  You might 
+check to see that the drink isn't too expensive, doesn't have too much sugar, has 
+enough real fruit juice to be called juice, or some not-so-bad tradeoff between these 
+factors.
+
+Once you get home and finally have time to relax with your drink, you might think 
+to yourself that "Hey, I didn't really need all of that choice.  What I really wanted 
+was something real, not too expensive, and not too sweet that someone would hand me."  
+If someone just handed that to me then I'd be happy.
+
+That's kind of what regularization tries to do.  It hands you something "pretty good" 
+by cutting down on the amount of freedom that you have.
+
+## At the end of the day, You didn't really need all of that freedom --
+##
+## This has even been named by psychologists as the "paralysis of choice".
+
+
+
+Flavors of Regularization:
+
+In the world of mathematical modelling, we usually have some data and we're trying 
+to decide among possible ways of "best understanding" it from a certain perspective.  
+The __perspective__ we use to understand the data is our given choice of mathematical model, 
+and the way we have of __best_understanding__ it is from this perspective is what machine 
+learning calls the "best fit" model.  It's the best choice of how to undersand the data 
+with this model.
+
+For purposes of this post, we'll focus on the perspective of understanding data given by 
+points in the x-y plane by trying to draw a line through them that comes as close to predicting 
+the y-values of all of them as closely as possible.  This perspective formally goes under the 
+name of Linear Regression.
+
+In general, once we have three points it's impossible to find a line that goes through all 
+threee of them, and the "best" line is given by minimizing the "sum of the squares error" 
+between the y-values of the line and the points for each of their x-values.  There are 
+several well-known ways of finding this best line, but we'll settle here for a beautiful picture.
+
+INSERT PICTURE HERE!
+
+If you want to play with this, you can pick three points in the plane 
+and the app will update to show the best line through them.
+
+
+In addition to this "standard" minimization problem of finding the best line, there are 
+two flavors of regluarization that people often impose to give preference to lines 
+whose coefficients are small.  These are somewhat unintuitively called "L^1" and "L^2" 
+regularization (or equally unintuitively "Lasso" and "Ridge" regression).  They involve 
+imposing a certain kind of penalty for choosing lines whose coefficients are large.  
+Mathematically this involves adding a penalty that is either the "L^1"-norm or "L^2"-norm 
+of the coefficients, and has the general cost function formulas
+
+$$
+L^2 formula
+$$
+
+$$
+L^1 formula
+$$
+
+If this is not so enlightning, don't worry, most people would agree with you!  
+In the next section we'll explain what this means and what it does in the simplest possible example 
+-- the underdetermined line through one point.  For now I'll just remind you of the often repeated 
+general wisdom about these regularizations:  "L^1" is for feature selection and "L^2" is for small coefficients.
+
+
+The "Best" line through one point:
+
+Imagine that you have one point in the plane.  One lonely isolated data point.  Let's say it's the point 
+P = (2,1) for now just to be concrete (i.e. x=2 and y=1).  If this is the only data point we have, then it's 
+not very hard to find a line (of the form y = m*x + b for some numbers m and b) going through this point.  
+In fact there are lots of lines through the point P -- 
+infinitely many of them, and we can see this from the following picture:
+
+    [[ Graphic of (non-vertical) lines through the point P, where we can adjust the slope...]]
+
+In the language of mathematical modelling, we would say that the problem of finding a line through the point P 
+is *overfit* (since it passes exactly through all data points) and *underdetermined* (since there is not a unique 
+line that does the job).  Because there are many lines that pass through P, and they all seem to do the job, 
+it's not possible to choose which among them is the "best" without imposing additional conditions to help say 
+what we mean by "best".  Here is where the various flavors of regularization come in to help us to make that choice.
+
+
+It's actually very helpful to be able to somehow see *all* lines in the plane at onnce, and then determine 
+which of these lines in the plane passes through the given point P.  One great way to do this is to think about 
+lines in the plane as all being of the form y=mx+b for some numbers m and b (i.e. the slope and intercept of the line) 
+and imagine a separate m-b plane.  This is the "parameter space" of lines in the plane, and here any point (m,b) in the 
+m-b plane corresponds to one line (y=mx+b) in the usual x-y plane.  It's kind of fun to be able to talk about all lines 
+in the plane at once, but this "parameter space" language also allows us to write down explicitly which lines in the plane
+pass through the given point P.  It's the points in the m-b plane that describe lines where 
+
+     y = mx + b  have the point P = (x,y) = (2,1),
+     or equivalently where 1 = m*2 + b.
+
+This means that in the m-b "parameter space" plane the lines passing through the point P = (2,1) are described by 
+the points that satisfy the equation 2m + b = 1.  The fact that there are infinitely many points on the line 2m+b=1 
+says exactly that there are infinitely many lines in the x-y plane passing through the point P = (2,1).
+
+     [[ Picture of 2m + b = 1 in the m-b plane, and show how various points 
+        correspond to lines through (2,1) in the x-y plane. ]]
+
+With this picture in hand, we're ready to see the effect of various flavors of regualrization on determining their 
+own version of a "best" line.
+
+
+The L^2-best line:
+
+From the perspective of L^2-regularization, the best line is the one that minimizes the L^2 cost function 
+
+     BLAH = SSE + L^2-term
+
+This formula might feel a little unwieldy, but in our case there is just one data point, and since any line we consider 
+passes through the data poing the y-value of the line and the point agree (at the x-value of the point).  This means that the 
+sum of squares error is zero, so we're really minimizing the function.  Here no matter what the positive constant $\lambda$ is 
+the function will be minimized at the same point, so we're reduced to trying to find the line in the x-y plane through the 
+point P=(2,1) where the function J_2(m,b) = m^2 + b^2 is the smallest.
+
+Now here the cool part is that we know what the level sets of this function J_2 looks like in the m-b plane.  They are given 
+by circles centered at the origin, and the value of J_2 grows as the radius of the circle grows.  Therefore to find the "L^2-best" 
+line through P=(2,1) we need to find the smallest radius circle centered at the origin that touches the line 2m + b = 1 in the m-b plane.
+By drawing this, we can see that it's tangent to the line 2m + b = 1 at some point, and this perpendicular to the line.  Therefore this 
+intersection point lies on the line with inverse-reciprocal slope (-1/(-2) = -1/2) and this line goes through the origin, so the intersection 
+point lies on the line b = 1/2 * m.  Solving both equations gives that the intersection point is (m,b) = (1/5, 2/5), so the "L^2-best" line 
+through the point P = (2,1) is the line y = x/5 + 2/5.
+
+Notice that this is the line through P whose sum of squares of coefficients is smallest, or equivalently the line y = mx+b whose 
+coefficient vector (m,b) is the shortest among all possible lines through P.
+
+
+The L^1-best line:
+
+From an L^1-regularization perspective, the best line is the one that minimizes the L^1 cost function
+
+     BLAH = SSE + L^1-term.
+
+For the same reasons as in the L^2 case (i.e. the data is overfit, and lambda can be taken to be 1) 
+the SSE term is zero and we are left with minimizing the function J_1(m,b) = |m| + |b|.  The level sets 
+of this function are diamonds (i.e. squares rotated by 45 degrees) centered at the origin, and again 
+(as in the L^2 case) the size of J_1(m,b) grows with the size of the diamond.  Therefore the  minimum value of J_1 
+for lines passing through the point P = (2,1) occurs where the smallest diamond touches the line 2m + b = 1 
+in the m-b plane.  From the picture we see that this happens when (m,b) = (1/2, 0), so the L^1-best line through 
+the point P=(2,1) is the line y = x/2.
+
+We notice that this has selected the feature of the slope m, and has selected against the y-intercept b 
+(i.e. it preferred to have m non-zero and b=0).  This gives an example of why it is said that L^1 regularization 
+performs feature selection.  
+
+
+Conclusion:  
+
+Finding the "best" line through a point is just one example of where regularization helps to choose a model, but 
+this example should help to justify the general intuition about L^2 and L^1 regularization.  In these cases we see 
+that L^2-regularization tries to make the coefficient vector small, while L^1-regularization helps to make the 
+coefficients small but also has a strong preference for some coefficients to be zero.  In general it's a not as clear 
+to "see" what's going on, but one can imagine that it's something that "very similar to" what we see in this example.  
+Hopefully this kind of intuition is helpful to the reader when deciding what kinds of regularization(s) to use 
+when approaching a model, and particularly a model that is overfit to some given data.  Thanks for reading!
+
+
+Exercises:
+
+For the reader looking to try their hand at working out some examples on their own, I'd recommend the following exercises:
+
+    a) Give the L^2 and L^1 regularized lines through the point (1,3).
+
+    b) Give the L^2 and L^1 regularized lines through the point (1,1) -- noting that there may not be a unique choice!
+
+    c) Give the L^2 and L^1 regularized lines through the point (0,0).
+
+    d) For which points P in the x-y plane does L^1 regularization select for the slope m?  for the slope b?  for neither/both?
+       
+    e) For which points P is the best L^1 regularized line through P not unique?  What conditions does L^1-regualrization 
+       impose at these points?
+
+
+
+
