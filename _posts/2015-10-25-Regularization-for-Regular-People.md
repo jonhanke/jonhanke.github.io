@@ -721,9 +721,9 @@ what we mean by “best".  Here is where the various flavors of regularization c
 
 It's actually very helpful to be able to somehow see *all* lines in the plane at once, and then determine 
 which of these lines in the plane passes through the given point \\(P\\).  One great way to do this is to think about 
-lines in the plane as all being of the form y=mx+b for some numbers m and b (i.e. the slope and intercept of the line) 
-and imagine a separate m-b plane.  This is the “parameter space" of lines in the plane, and here any point \\((m,b)\\) in the 
-\\((m,b)\\)-plane corresponds to one line (\\(y=mx+b\\)) in the usual \\((x,y)\\)-plane.  It's kind of fun to be able to talk about all lines 
+lines in the plane as all being of the form \\(y=mx+b\\) for some numbers \\(m\\) and \\(b\\) (i.e. the slope and intercept of the line) 
+and imagine a separate \\((m,b)\\)-plane.  This is the “parameter space" of lines in the plane, and here any point \\((m,b)\\) in the 
+\\((m,b)\\)-plane corresponds to one line (i.e. \\(y=mx+b\\)) in the usual \\((x,y)\\)-plane.  It's kind of fun to be able to talk about all lines 
 in the plane at once, but this “parameter space" language also allows us to write down explicitly which lines in the plane
 pass through the given point \\(P\\).  It's the points in the \\((m,b)\\)-plane that describe lines where \\(y = mx + b\\) 
 have the point \\(P = (x,y) = (2,1)\\), or equivalently where \\(1 = m \cdot 2 + b\\).
@@ -921,10 +921,274 @@ line through \\(P=(2,1)\\) we need to find the smallest radius circle centered a
 
 
 <center>
+<div border="black">
+<p>
+  <label for="jTwo" 
+     style="display: inline-block; width: 240px; text-align: right">
+     \\(J\_2(m,b)\\) = <span id="j1-value">…</span>
+  </label>
+  <input type="range" step="0.01" min="0" max="1.2" id="jTwo">
+</p>
+<svg id="m_b_plane_with_circle">
+</svg>
+</div>
+</center>
+
+
+
+<script> 
+
+
+
+
+    function Draw_Picture5() {
+
+        var svg = d3.select("#m_b_plane_with_circle");
+        var svgHeight = 600;
+        var svgWidth = 600;
+
+        // Set margins and inner SVG box dimensions
+        var margin = {top: 20, right: 10, bottom: 20, left: 10};
+        var width = svgWidth - margin.left - margin.right,
+            height = svgHeight - margin.top - margin.bottom;
+
+        // Set the x-y plane region to show
+        var xDomain = [-0.5, 1.5];
+        var yDomain = [-0.5, 1.5];
+        var myPoint = [2, 1];
+
+
+        var xScale = d3.scale.linear()
+                         .domain(xDomain)
+                         .range([margin.left, width]);
+
+        var xAxis = d3.svg.axis()
+                      .scale(xScale)
+                      // .outerTickSize(1)
+                      .tickValues([0.5, 1])
+                      // .tickFormat(",.0f")
+                      .orient("bottom");
+
+
+        var yScale = d3.scale.linear()
+                         .domain(yDomain)
+                         .range([height, margin.top]);
+
+        var yAxis = d3.svg.axis()
+                      .scale(yScale)
+                      .tickValues([0.5, 1, 1.5])
+                      .orient("left");
+
+
+        var myPointCoordinates = [xScale(myPoint[0]), yScale(myPoint[1])];
+
+
+
+
+        // Stylize the SVG with a border
+        svg.attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .style("border-style", "solid")
+            .style("border-width", "0px")
+            .style("border-color", "black");
+
+
+        // Draw a moduli line
+        var myLine = svg.append("line")
+                    .attr("x1", xScale(-0.25))
+                    .attr("y1", yScale(1.5))
+                    .attr("x2", xScale(0.75))
+                    .attr("y2", yScale(-0.5))
+                    .attr("marker-start", "url(#triangle-start)")
+                    .attr("marker-end", "url(#triangle-end)")
+                    .attr("stroke", "black")
+                    .attr("stroke-width", 2);
+                    // .style("fill", "red");
+                    // .selectAll("marker path")
+                    //     .attr("stroke", "blue")
+                    //     .style("fill", "blue");
+
+
+        // Draw a fitting circle
+        var myCircle = svg.append("circle")
+                        .attr("cx", xScale(0))
+                        .attr("cy", yScale(0))
+                        .attr("r", 50)
+                        .attr("fill", "none")
+                        .attr("stroke-dasharray", "5,5")
+                        .attr("stroke", "blue")
+                        .attr("stroke-width", 1);
+
+    
+        // Add the x-axis
+        var xAxisGroup = svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + yScale(0) + ")")
+            .call(xAxis);
+
+        xAxisGroup.append("text")
+            .text("m")
+            .attr("x", xScale(1.4))
+            .attr("y", 20)
+            .attr("text-anchor", "center");
+
+
+        // // Attempt to add arrowheads
+        // xAxisGroup.select("path")
+        //         .attr("marker-start", "url(#triangle-start)")
+        //         .attr("marker-end", "url(#triangle-end)");
+
+
+        // Add the y-axis
+        var yAxisGroup = svg.append("g")
+            .attr("class", "y axis")
+            .attr("transform", "translate(" + xScale(0) + ",0)")
+            .call(yAxis);
+
+        yAxisGroup.append("text")
+            .text("b")
+            .attr("x", 10)
+            .attr("y", yScale(1.4))
+            .attr("text-anchor", "center");
+
+
+        // Style the axes
+        svg.selectAll(".axis line")
+            .style("stroke", "red")
+            .style("stroke-width", 2)
+            .style("fill", "none")
+            .style("shape-rendering", "crispEdges");
+
+        svg.selectAll(".axis path")
+            .style("stroke", "red")
+            .style("stroke-width", 2)
+            .style("fill", "none")
+            .style("shape-rendering", "crispEdges");
+
+
+        svg.selectAll(".axis text")
+            .style("font-family", "sans-serif")
+            .style("font-size", "11px");
+
+
+        // =========== Slider code below here ================
+        // Taken from http://bl.ocks.org/d3noob/10633421
+        // ===================================================
+
+        // when the input range changes update the angle 
+        d3.select("#jTwo").on("input", function() {
+          updateJ1(+this.value);
+        });
+
+        // Initial starting angle of the text and empty array of intersection points
+        updateJ1(1.0);
+        var intersectionPointArray = [[1.0, 1.0], [1.1, 1.1]];
+
+
+        // Draw intersection points
+        var myPoints = svg.selectAll(".intersectionCircle")
+                        .data(intersectionPointArray)
+                        .enter().append("circle")
+                            .attr("class", "intersectionCircle")
+                            .attr("cx", function(d) { return xScale(d[0]);})
+                            .attr("cy", function(d) { return yScale(d[1]);})
+                            .attr("r", 5)
+                            .attr("fill", "blue");
+
+
+
+        // update the element
+        function updateJ1(jTwo) {
+
+          // create the new radius with two digit precision
+          var rSqrt = Math.sqrt(jTwo);
+          var rSqrt_trunc = (Math.round(rSqrt)*100)/100
+          var jTwo_trunc = Math.round(jTwo*100)/100
+
+
+          // adjust the text on the range slider
+          d3.select("#j1-value").text(jTwo_trunc);
+          d3.select("#jTwo").property("value", jTwo);
+
+          // console.log(jOne);
+          // console.log(Math.sqrt(jOne));
+
+          // Change the circle radius
+          myCircle
+            .attr("r", xScale(Math.sqrt(jTwo)) - xScale(0));
+
+          // Compute the intersection quadratic for m.
+          //
+          // m^2 + b^2 = r^2
+          // 2*m + b = 1  -->  b = 1 - 2*m
+          //   --> m^2 + (1-2*m)^2 = r^2
+          //   --> m^2 + 1 - 4*m + 4*m^2 = r^2
+          //   --> 5m^2 -4*m + 1-r^2 = 0 
+          //
+          var quad_a = 5;
+          var quad_b = -4;
+          var quad_c = 1-jTwo;
+          var quad_disc = quad_b*quad_b - 4*quad_a*quad_c;
+
+          // Change the circle coloring based on the number of roots
+          console.log("quad_disc = ", quad_disc);
+          if (quad_disc == 0.0) {
+                myCircle.attr("stroke-dasharray", "none")
+            } else {
+                myCircle.attr("stroke-dasharray", "5,5")
+            };
+
+
+
+          // Compute the intersection point coordinates
+          if (quad_disc < 0) {
+            intersectionPointArray =[];
+          } else {
+            quad_disc_sqrt = Math.sqrt(quad_disc);
+            var m1 = (-quad_b + quad_disc_sqrt) / (2 * quad_a);
+            var b1 = 1 - 2*m1;
+            var m2 = (-quad_b - quad_disc_sqrt) / (2 * quad_a);
+            var b2 = 1 - 2*m2;
+            var intersectionPointArray = [[m1, b1], [m2, b2]];
+
+            console.log("intersectionPointArray = ", intersectionPointArray);
+
+          }
+
+
+          // Update intersection points
+          var pts = svg.selectAll(".intersectionCircle").data(intersectionPointArray)
+                  .attr("cx", function(d) { return xScale(d[0]);})
+                  .attr("cy", function(d) { return yScale(d[1]);});
+
+          pts.enter().append("circle")
+                  .attr("class", "intersectionCircle")
+                  .attr("cx", function(d) { return xScale(d[0]);})
+                  .attr("cy", function(d) { return yScale(d[1]);})
+                  .attr("r", 5)
+                  .attr("fill", "blue");
+
+          pts.exit()
+                  .remove();
+
+
+        }
+
+
+
+    }
+
+    Draw_Picture5();
+
+</script>
+
+
+
+<!-- <center>
 ![Circles growing to touch the parametrized line]({{ site.baseurl }}/images/jekyll-logo.png 
 "Circles growing to touch the parametrized line")   
 </center>
-
+ -->
 
 
 By drawing this, we can see that the circle tangent to the line \\(2m + b = 1\\) at this point, 
@@ -961,10 +1225,284 @@ minimum value of \\(J\_1\\)
 for lines passing through the point \\(P = (2,1)\\) occurs where the smallest diamond touches the line \\(2m + b = 1\\) 
 in the \\((m,b)\\)-plane.  
 
+
+
+<center>
+<div border="black">
+<p>
+  <label for="jOne" 
+     style="display: inline-block; width: 240px; text-align: right">
+     \\(J\_1(m,b)\\) = <span id="jOne-value">…</span>
+  </label>
+  <input type="range" step="0.01" min="0" max="1.2" id="jOne">
+</p>
+<svg id="m_b_plane_with_diamond">
+</svg>
+</div>
+</center>
+
+
+
+<script> 
+
+
+
+
+    function Draw_Picture6() {
+
+        var svg = d3.select("#m_b_plane_with_diamond");
+        var svgHeight = 600;
+        var svgWidth = 600;
+
+        // Set margins and inner SVG box dimensions
+        var margin = {top: 20, right: 10, bottom: 20, left: 10};
+        var width = svgWidth - margin.left - margin.right,
+            height = svgHeight - margin.top - margin.bottom;
+
+        // Set the x-y plane region to show
+        var xDomain = [-0.5, 1.5];
+        var yDomain = [-0.5, 1.5];
+        var myPoint = [2, 1];
+
+
+        var xScale = d3.scale.linear()
+                         .domain(xDomain)
+                         .range([margin.left, width]);
+
+        var xAxis = d3.svg.axis()
+                      .scale(xScale)
+                      // .outerTickSize(1)
+                      .tickValues([0.5, 1])
+                      // .tickFormat(",.0f")
+                      .orient("bottom");
+
+
+        var yScale = d3.scale.linear()
+                         .domain(yDomain)
+                         .range([height, margin.top]);
+
+        var yAxis = d3.svg.axis()
+                      .scale(yScale)
+                      .tickValues([0.5, 1, 1.5])
+                      .orient("left");
+
+
+        var myPointCoordinates = [xScale(myPoint[0]), yScale(myPoint[1])];
+
+
+
+
+        // Stylize the SVG with a border
+        svg.attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .style("border-style", "solid")
+            .style("border-width", "0px")
+            .style("border-color", "black");
+
+
+        // Draw a moduli line
+        var myLine = svg.append("line")
+                    .attr("x1", xScale(-0.25))
+                    .attr("y1", yScale(1.5))
+                    .attr("x2", xScale(0.75))
+                    .attr("y2", yScale(-0.5))
+                    .attr("marker-start", "url(#triangle-start)")
+                    .attr("marker-end", "url(#triangle-end)")
+                    .attr("stroke", "black")
+                    .attr("stroke-width", 2);
+                    // .style("fill", "red");
+                    // .selectAll("marker path")
+                    //     .attr("stroke", "blue")
+                    //     .style("fill", "blue");
+
+
+        //This is the accessor function we talked about above
+        var diamondFunction = d3.svg.line()
+                          .x(function(d) { return xScale(d[0]); })
+                          .y(function(d) { return yScale(d[1]); })
+                         .interpolate("linear");
+
+        // Make the closed diamond path
+        function diamondPath(x) {
+            return diamondFunction([[x,0], [0,x], [-x,0], [0, -x]]) + "Z";
+        } 
+    
+        // Draw a fitting diamond
+        var myDiamond = svg.append("path")
+                            .attr("d", diamondPath(0.5))
+                            .attr("fill", "none")
+                            .attr("stroke-dasharray", "5,5")
+                            .attr("stroke", "blue")
+                            .attr("stroke-width", 1);
+
+
+
+        // Add the x-axis
+        var xAxisGroup = svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + yScale(0) + ")")
+            .call(xAxis);
+
+        xAxisGroup.append("text")
+            .text("m")
+            .attr("x", xScale(1.4))
+            .attr("y", 20)
+            .attr("text-anchor", "center");
+
+
+        // // Attempt to add arrowheads
+        // xAxisGroup.select("path")
+        //         .attr("marker-start", "url(#triangle-start)")
+        //         .attr("marker-end", "url(#triangle-end)");
+
+
+        // Add the y-axis
+        var yAxisGroup = svg.append("g")
+            .attr("class", "y axis")
+            .attr("transform", "translate(" + xScale(0) + ",0)")
+            .call(yAxis);
+
+        yAxisGroup.append("text")
+            .text("b")
+            .attr("x", 10)
+            .attr("y", yScale(1.4))
+            .attr("text-anchor", "center");
+
+
+        // Style the axes
+        svg.selectAll(".axis line")
+            .style("stroke", "red")
+            .style("stroke-width", 2)
+            .style("fill", "none")
+            .style("shape-rendering", "crispEdges");
+
+        svg.selectAll(".axis path")
+            .style("stroke", "red")
+            .style("stroke-width", 2)
+            .style("fill", "none")
+            .style("shape-rendering", "crispEdges");
+
+
+        svg.selectAll(".axis text")
+            .style("font-family", "sans-serif")
+            .style("font-size", "11px");
+
+
+        // =========== Slider code below here ================
+        // Taken from http://bl.ocks.org/d3noob/10633421
+        // ===================================================
+
+        // when the input range changes update the angle 
+        d3.select("#jOne").on("input", function() {
+          updateJ1(+this.value);
+        });
+
+        // Initial starting angle of the text and empty array of intersection points
+        updateJ1(1.0);
+        var intersectionPointArray = [[1.0, 1.0], [1.1, 1.1]];
+
+
+
+        // Draw intersection points
+        var myPoints = svg.selectAll(".intersectionCircle")
+                        .data(intersectionPointArray)
+                        .enter().append("circle")
+                            .attr("class", "intersectionCircle")
+                            .attr("cx", function(d) { return xScale(d[0]);})
+                            .attr("cy", function(d) { return yScale(d[1]);})
+                            .attr("r", 5)
+                            .attr("fill", "blue");
+
+
+
+        // update the element
+        function updateJ1(jOne) {
+
+          // create the new radius with two digit precision
+          var r = jOne;
+          var r_trunc = Math.round(r*100)/100
+
+
+          // adjust the text on the range slider
+          d3.select("#jOne-value").text(r_trunc);
+          d3.select("#jOne").property("value", r);
+
+          // console.log(jOne);
+          // console.log(Math.sqrt(jOne));
+
+          // Change the circle radius
+          myDiamond
+            .attr("d", diamondPath(r));
+
+          // Compute the intersection quadratic for m.
+          //
+          // m + b = r
+          // 2*m + b = 1  -->  m = 1-r,  b = -1+2r
+          //
+          // b = m - r
+          // 2*m + b = 1  -->  m = (1+r)/3,  b = (1-2r)/3
+          //
+
+          // Change the circle coloring based on the number of roots
+          console.log("r = ", r);
+          if (r == 0.5) {
+                myDiamond.attr("stroke-dasharray", "none")
+            } else {
+                myDiamond.attr("stroke-dasharray", "5,5")
+            };
+
+
+
+          // Compute the intersection point coordinates
+          if (r < 0.5) {
+            intersectionPointArray =[];
+          } else {
+            var m1 = 1 - r;
+            var b1 = -1 + 2*r;
+            var m2 = (1 + r) / 3;
+            var b2 = (1 - 2*r) / 3;
+            var intersectionPointArray = [[m1, b1], [m2, b2]];
+
+            console.log("intersectionPointArray = ", intersectionPointArray);
+
+          }
+
+
+          // Update intersection points
+          var pts = svg.selectAll(".intersectionCircle").data(intersectionPointArray)
+                  .attr("cx", function(d) { return xScale(d[0]);})
+                  .attr("cy", function(d) { return yScale(d[1]);});
+
+          pts.enter().append("circle")
+                  .attr("class", "intersectionCircle")
+                  .attr("cx", function(d) { return xScale(d[0]);})
+                  .attr("cy", function(d) { return yScale(d[1]);})
+                  .attr("r", 5)
+                  .attr("fill", "blue");
+
+          pts.exit()
+                  .remove();
+
+
+        }
+
+
+
+    }
+
+    Draw_Picture6();
+
+</script>
+
+
+
+<!-- 
 <center>
 ![Diamonds growing to touch the parametrized line]({{ site.baseurl }}/images/jekyll-logo.png 
 "Diamonds growing to touch the parametrized line")   
 </center>
+ -->
+
 
 From the picture we see that this happens when \\((m,b) = (\frac{1}{2}, 0)\\), so the \\(L^1\\)-best line through 
 the point \\(P=(2,1)\\) is the line \\(y = \frac{1}{2}x\\).
