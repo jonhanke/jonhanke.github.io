@@ -609,9 +609,9 @@ many of them \\(-\\) and we can see this from playing with the following picture
 <p>
   <label for="nAngle" 
      style="display: inline-block; width: 240px; text-align: right">
-     angle = <span id="nAngle-value">…</span>
+     Vary the line <span id="nAngle-value"></span>
   </label>
-  <input type="range" min="0" max="180" id="nAngle">
+  <input type="range" min="0" max="360" id="nAngle">
 </p>
 <svg id="Vary_the_line_through_one_point">
 </svg>
@@ -775,13 +775,21 @@ many of them \\(-\\) and we can see this from playing with the following picture
         function update(nAngle) {
 
           // adjust the text on the range slider
-          d3.select("#nAngle-value").text(nAngle);
+          // d3.select("#nAngle-value").text(nAngle);
           d3.select("#nAngle").property("value", nAngle);
 
           // rotate the text
           myLine
             .attr("transform", "translate(" + myPointCoordinates[0] + ", " + myPointCoordinates[1] + ")" 
                 + " rotate("+nAngle+")");
+
+
+          // Deal with the vertical line separately
+          if ((nAngle == 90) || (nAngle == 270)) {
+            myLine.style("opacity", 0.2);
+          } else {
+            myLine.style("opacity", 1.0);
+          }
         }
 
 
@@ -1016,8 +1024,10 @@ BLAH = SSE + L^2-term
 
 This formula might feel a little unwieldy, but in our case there is just one data point, and since any line we consider 
 passes through the data poing the \\(y\\)-value of the line and the point agree (at the \\(x\\)-value of the point).  This means that the 
-sum of squared errors is zero, so we're really minimizing the function.  Here no matter what the positive constant \\(\lambda\\) is 
-the function will be minimized at the same point, so we're reduced to trying to find the line in the \\((x,y)\\)-plane through the 
+sum of squared errors is zero, so we're really minimizing the function \\(J\_2(m,b) = \lambda(m^2 + b^2)\\).  Here 
+no matter what the positive constant \\(\lambda\\) happens to be, the function will be minimized 
+at the same point.  Therefore we can set \\(\lambda = 1\\) and we're reduced to trying to find the line 
+in the \\((x,y)\\)-plane through the 
 point \\(P=(2,1)\\) where the function \\(J\_2(m,b) = m^2 + b^2\\) is the smallest.
 
 Now here the cool part is that we know what the level sets of this function \\(J\_2\\) looks like in the \\((m,b)\\)-plane.  They are given 
@@ -1248,9 +1258,27 @@ line through \\(P=(2,1)\\) we need to find the smallest radius circle centered a
           // Change the circle coloring based on the number of roots
           console.log("quad_disc = ", quad_disc);
           if (quad_disc == 0.0) {
-                myCircle.attr("stroke-dasharray", "none")
+                myCircle.attr("stroke-dasharray", "none");
+
+                svg.append("line")
+                    .attr("class", "perpendicularLine")
+                    .attr("x1", xScale(-0.25))
+                    .attr("y1", yScale(-0.125))
+                    .attr("x2", xScale(1))
+                    .attr("y2", yScale(0.5))
+                    .attr("marker-start", "url(#triangle-start)")
+                    .attr("marker-end", "url(#triangle-end)")
+                    .attr("stroke", "black")
+                    .attr("stroke-width", 2)
+                    .attr("stroke-dasharray", "5,5")
+                    .attr("opacity", 0.3);
+
+
             } else {
-                myCircle.attr("stroke-dasharray", "5,5")
+                myCircle.attr("stroke-dasharray", "5,5");
+
+                svg.select(".perpendicularLine").remove();
+
             };
 
 
@@ -1312,7 +1340,7 @@ to the line.  Therefore this intersection point lies on the line with inverse-re
 \\((\frac{-1}{\text{slope}} = \frac{-1}{-2} = \frac{1}{2})\\) and this line goes through the origin, 
 so the intersection point lies on the line \\(b = \frac{m}{2}\\).  Solving both equations gives that the 
 intersection point is \\((m,b) = (\frac{2}{5}, \frac{1}{5})\\), 
-so the “\\(L^2\\)-best" line through the point \\(P = (2,1)\\) is the line \\(y = \frac{2}{5}x + \frac{1}{5}\\).
+so the \\(L^2\\)-best line through the point \\(P = (2,1)\\) is the line \\(y = \frac{2}{5}x + \frac{1}{5}\\).
 
 Notice that this is the line through \\(P\\) whose sum of squared of coefficients is smallest, or equivalently the line \\(y = mx+b\\) whose 
 coefficient vector \\((m,b)\\) is the shortest among all possible lines through \\(P\\).
@@ -1349,7 +1377,7 @@ in the \\((m,b)\\)-plane.
      style="display: inline-block; width: 240px; text-align: right">
      \\(J\_1(m,b)\\) = <span id="jOne-value">…</span>
   </label>
-  <input type="range" step="0.01" min="0" max="1.2" id="jOne">
+  <input type="range" step="0.01" min="0.0" max="1.2" id="jOne">
 </p>
 <svg id="m_b_plane_with_diamond">
 </svg>
