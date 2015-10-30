@@ -1196,8 +1196,8 @@ and so this radius of the circle is perpendicular
 to the line.  Therefore this intersection point lies on the line with inverse-reciprocal slope 
 \\((\frac{-1}{\text{slope}} = \frac{-1}{-2} = \frac{1}{2})\\) and this line goes through the origin, 
 so the intersection point lies on the line \\(b = \frac{m}{2}\\).  Solving both equations gives that the 
-intersection point is \\((m,b) = (\frac{1}{5}, \frac{2}{5})\\), 
-so the “\\(L^2\\)-best" line through the point \\(P = (2,1)\\) is the line \\(y = \frac{1}{5}x + \frac{2}{5}\\).
+intersection point is \\((m,b) = (\frac{2}{5}, \frac{1}{5})\\), 
+so the “\\(L^2\\)-best" line through the point \\(P = (2,1)\\) is the line \\(y = \frac{2}{5}x + \frac{1}{5}\\).
 
 Notice that this is the line through \\(P\\) whose sum of squared of coefficients is smallest, or equivalently the line \\(y = mx+b\\) whose 
 coefficient vector \\((m,b)\\) is the shortest among all possible lines through \\(P\\).
@@ -1316,6 +1316,8 @@ in the \\((m,b)\\)-plane.
                     //     .style("fill", "blue");
 
 
+        var L1DotColor = "purple";
+
         //This is the accessor function we talked about above
         var diamondFunction = d3.svg.line()
                           .x(function(d) { return xScale(d[0]); })
@@ -1332,7 +1334,7 @@ in the \\((m,b)\\)-plane.
                             .attr("d", diamondPath(0.5))
                             .attr("fill", "none")
                             .attr("stroke-dasharray", "5,5")
-                            .attr("stroke", "blue")
+                            .attr("stroke", L1DotColor)
                             .attr("stroke-width", 1);
 
 
@@ -1411,7 +1413,7 @@ in the \\((m,b)\\)-plane.
                             .attr("cx", function(d) { return xScale(d[0]);})
                             .attr("cy", function(d) { return yScale(d[1]);})
                             .attr("r", 5)
-                            .attr("fill", "blue");
+                            .attr("fill", L1DotColor);
 
 
 
@@ -1478,7 +1480,7 @@ in the \\((m,b)\\)-plane.
                   .attr("cx", function(d) { return xScale(d[0]);})
                   .attr("cy", function(d) { return yScale(d[1]);})
                   .attr("r", 5)
-                  .attr("fill", "blue");
+                  .attr("fill", L1DotColor);
 
           pts.exit()
                   .remove();
@@ -1518,10 +1520,200 @@ Finding the “best" line through a point is just one example of where regulariz
 but this example should help to justify the general intuition about \\(L^2\\)- and \\(L^1\\)-regularization.  In 
 these cases we see that \\(L^2\\)-regularization tries to make the coefficient vector small, 
 while \\(L^1\\)-regularization helps to make the 
-coefficients small but also has a strong preference for some coefficients to be zero.  In general it's a not as clear 
-to “see" what's going on, but one can imagine that it's something that “very similar to" what we see in this example.  
-Hopefully this kind of intuition is helpful to the reader when deciding what kinds of regularization(s) to use 
-when approaching a model, and particularly a model that is overfit to some given data.  Thanks for reading!
+coefficients small but also has a strong preference for some coefficients to be zero.  
+
+
+
+<center>
+<div border="black">
+<svg id="Regularized_lines_through_one_point">
+</svg>
+</div>
+</center>
+
+
+
+<script> 
+
+
+
+
+    function Draw_Picture7() {
+
+        var svg = d3.select("#Regularized_lines_through_one_point");
+        var svgHeight = 400;
+        var svgWidth = 800;
+
+        // Set margins and inner SVG box dimensions
+        var margin = {top: 20, right: 10, bottom: 20, left: 10};
+        var width = svgWidth - margin.left - margin.right,
+            height = svgHeight - margin.top - margin.bottom;
+
+        // Set the x-y plane region to show
+        var xDomain = [-0.5, 4.5];
+        var yDomain = [-0.5, 2.5];
+        var myPoint = [2, 1];
+
+
+        var xScale = d3.scale.linear()
+                         .domain(xDomain)
+                         .range([margin.left, width]);
+
+        var xAxis = d3.svg.axis()
+                      .scale(xScale)
+                      // .outerTickSize(1)
+                      .tickValues([1, 2, 3, 4])
+                      // .tickFormat(",.0f")
+                      .orient("bottom");
+
+
+        var yScale = d3.scale.linear()
+                         .domain(yDomain)
+                         .range([height, margin.top]);
+
+        var yAxis = d3.svg.axis()
+                      .scale(yScale)
+                      .tickValues([1, 2])
+                      .orient("left");
+
+
+        var myPointCoordinates = [xScale(myPoint[0]), yScale(myPoint[1])];
+
+
+
+
+        // Stylize the SVG with a border
+        svg.attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .style("border-style", "solid")
+            .style("border-width", "0px")
+            .style("border-color", "black");
+
+
+        var startX = -0.4;
+        var endX = 3.9;
+
+        // Draw the best L2 line through the point P.
+        function L2Line(x) { return (2*x + 1) / 5; };
+        var myL2Line = svg.append("line")
+                    .attr("x1", xScale(startX))
+                    .attr("y1", yScale(L2Line(startX)))
+                    .attr("x2", xScale(endX))
+                    .attr("y2", yScale(L2Line(endX)))
+                    .attr("marker-start", "url(#triangle-start)")
+                    .attr("marker-end", "url(#triangle-end)")
+                    .attr("stroke", "blue")
+                    .attr("stroke-width", 2);
+                    // .style("fill", "red");
+                    // .selectAll("marker path")
+                    //     .attr("stroke", "blue")
+                    //     .style("fill", "blue");
+        svg.append("text")
+            .text("y=(2x+1)/5")
+            // .text("\\(y=\frac{x}{2}\\)")
+            .attr("x", xScale(endX + 0.1))
+            .attr("y", yScale(L2Line(endX)))
+            .attr("dy", "0.3em")
+            .attr("text-anchor", "left")
+
+
+        // Draw the best L1 line through the point P.
+        function L1Line(x) { return x/2; };
+        var myL1Line = svg.append("line")
+                    .attr("x1", xScale(startX))
+                    .attr("y1", yScale(L1Line(startX)))
+                    .attr("x2", xScale(endX))
+                    .attr("y2", yScale(L1Line(endX)))
+                    .attr("marker-start", "url(#triangle-start)")
+                    .attr("marker-end", "url(#triangle-end)")
+                    .attr("stroke", "purple")
+                    .attr("stroke-width", 2);
+                    // .style("fill", "red");
+                    // .selectAll("marker path")
+                    //     .attr("stroke", "blue")
+                    //     .style("fill", "blue");
+        svg.append("text")
+            .text("y=x/2")
+            // .text("\\(y=\frac{x}{2}\\)")
+            .attr("x", xScale(endX + 0.1))
+            .attr("y", yScale(L1Line(endX)))
+            .attr("dy", "0.3em")
+            .attr("text-anchor", "left")
+
+
+
+        // Draw the points on top
+        var pointArray = [[2,1]];
+        svg.selectAll("circle")
+            .data(pointArray)
+            .enter().append("circle")
+                .attr("cx", function(d) { return xScale(d[0]);})
+                .attr("cy", function(d) { return yScale(d[1]);})
+                .attr("r", 5)
+                .attr("fill", "black");
+
+        svg.append("text")
+            .text("P=(2,1)")
+            // .text("\\(y=\frac{x}{2}\\)")
+            .attr("x", xScale(2 - 0.1))
+            .attr("y", yScale(1 - 0.2))
+            .attr("dy", "0.3em")
+            .attr("text-anchor", "center");
+
+
+
+        // Add the x-axis
+        var xAxisGroup = svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + yScale(0) + ")")
+            .call(xAxis);
+
+        // // Attempt to add arrowheads
+        // xAxisGroup.select("path")
+        //         .attr("marker-start", "url(#triangle-start)")
+        //         .attr("marker-end", "url(#triangle-end)");
+
+
+        // Add the y-axis
+        svg.append("g")
+            .attr("class", "y axis")
+            .attr("transform", "translate(" + xScale(0) + ",0)")
+            .call(yAxis);
+
+
+        // Style the axes
+        d3.selectAll(".axis line")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .style("fill", "none")
+            .style("shape-rendering", "crispEdges");
+
+        d3.selectAll(".axis path")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .style("fill", "none")
+            .style("shape-rendering", "crispEdges");
+
+
+        d3.selectAll(".axis text")
+            .style("font-family", "sans-serif")
+            .style("font-size", "11px");
+
+
+    }
+
+    Draw_Picture7();
+
+</script>
+
+
+
+
+
+In general it's a not as clear to “see" what's going on, but one can imagine that it's something 
+that “very similar to" what we see in this example.  Hopefully this kind of intuition is helpful 
+to the reader when deciding what kinds of regularization(s) to use when approaching a model, 
+and particularly a model that is overfit to some given data.  Thanks for reading!
 
 
 ## Exercises 
