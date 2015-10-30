@@ -46,7 +46,7 @@ $$
 
         var svg = d3.select("svg");
         var svgHeight = 400;
-        var svgWidth = 400;
+        var svgWidth = 480;
 
         // Set margins and inner SVG box dimensions
         var margin = {top: 20, right: 10, bottom: 20, left: 10};
@@ -54,7 +54,7 @@ $$
             height = svgHeight - margin.top - margin.bottom;
 
         // Set the x-y plane region to show
-        var xDomain = [-0.5, 2.5];
+        var xDomain = [-0.5, 3.0];
         var yDomain = [-0.5, 2.5];
         var myPoint = [1, 1];
 
@@ -207,7 +207,7 @@ $$
 
         // Draw the ?? text
         svg.append("text")
-            .text("??")
+            .text("Which line?")
             .attr("x", xScale(2.1))
             .attr("y", yScale(1.0))
             .attr("dy", "0.3em")
@@ -220,11 +220,20 @@ $$
             .attr("r", 5)
             .attr("fill", "black");
 
+
+
         // Add the x-axis
         var xAxisGroup = svg.append("g")
-            .attr("class", "axis")
+            .attr("class", "x axis xy")
             .attr("transform", "translate(0," + yScale(0) + ")")
             .call(xAxis);
+
+        xAxisGroup.append("text")
+            .attr("class", "xy label")
+            .text("x")
+            .attr("x", xScale(xDomain[1] - 0.08))
+            .attr("y", 18)
+            .attr("text-anchor", "center");
 
         // // Attempt to add arrowheads
         // xAxisGroup.select("path")
@@ -233,29 +242,66 @@ $$
 
 
         // Add the y-axis
-        svg.append("g")
-            .attr("class", "axis")
+        var yAxisGroup = svg.append("g")
+            .attr("class", "y axis xy")
             .attr("transform", "translate(" + xScale(0) + ",0)")
             .call(yAxis);
 
+        yAxisGroup.append("text")
+            .attr("class", "xy label")
+            .text("y")
+            .attr("x", -18)
+            .attr("y", yScale(yDomain[1] - 0.1))
+            .attr("text-anchor", "center");
+
 
         // Style the axes
-        d3.selectAll(".axis line")
+        d3.selectAll(".xy path")
             .style("stroke", "black")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-        d3.selectAll(".axis path")
+        d3.selectAll(".xy line")
             .style("stroke", "black")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-
-        d3.selectAll(".axis text")
+        d3.selectAll(".xy text")
             .style("font-family", "sans-serif")
             .style("font-size", "11px");
+
+        d3.selectAll(".xy .label")
+            .style("font-family", "sans-serif")
+            .style("font-size", "18px");
+
+
+
+//
+
+
+
+
+
+
+        // // Style the axes
+        // d3.selectAll(".axis line")
+        //     .style("stroke", "black")
+        //     .style("stroke-width", 2)
+        //     .style("fill", "none")
+        //     .style("shape-rendering", "crispEdges");
+
+        // d3.selectAll(".axis path")
+        //     .style("stroke", "black")
+        //     .style("stroke-width", 2)
+        //     .style("fill", "none")
+        //     .style("shape-rendering", "crispEdges");
+
+
+        // d3.selectAll(".axis text")
+        //     .style("font-family", "sans-serif")
+        //     .style("font-size", "11px");
 
     }
 
@@ -416,13 +462,13 @@ several well-known ways of finding this best line, but we'll settle here for a b
                     //     .attr("stroke", "blue")
                     //     .style("fill", "blue");
 
-        // Draw the ?? text
-        svg.append("text")
-            .text("??")
-            .attr("x", xScale(2.1))
-            .attr("y", yScale(1.0))
-            .attr("dy", "0.3em")
-            .attr("text-anchor", "left");
+        // // Draw the ?? text
+        // svg.append("text")
+        //     .text("??")
+        //     .attr("x", xScale(2.1))
+        //     .attr("y", yScale(1.0))
+        //     .attr("dy", "0.3em")
+        //     .attr("text-anchor", "left");
 
         // Draw the points on top
         var pointArray = [[1,1], [1.3,1], [0.5,0.3]];
@@ -434,11 +480,19 @@ several well-known ways of finding this best line, but we'll settle here for a b
                 .attr("r", 5)
                 .attr("fill", "black");
 
+     
         // Add the x-axis
         var xAxisGroup = svg.append("g")
-            .attr("class", "axis")
+            .attr("class", "x axis xy")
             .attr("transform", "translate(0," + yScale(0) + ")")
             .call(xAxis);
+
+        xAxisGroup.append("text")
+            .attr("class", "xy label")
+            .text("x")
+            .attr("x", xScale(xDomain[1] - 0.08))
+            .attr("y", 18)
+            .attr("text-anchor", "center");
 
         // // Attempt to add arrowheads
         // xAxisGroup.select("path")
@@ -447,29 +501,41 @@ several well-known ways of finding this best line, but we'll settle here for a b
 
 
         // Add the y-axis
-        svg.append("g")
-            .attr("class", "axis")
+        var yAxisGroup = svg.append("g")
+            .attr("class", "y axis xy")
             .attr("transform", "translate(" + xScale(0) + ",0)")
             .call(yAxis);
 
+        yAxisGroup.append("text")
+            .attr("class", "xy label")
+            .text("y")
+            .attr("x", -18)
+            .attr("y", yScale(yDomain[1] - 0.1))
+            .attr("text-anchor", "center");
+
 
         // Style the axes
-        d3.selectAll(".axis line")
+        d3.selectAll(".xy path")
             .style("stroke", "black")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-        d3.selectAll(".axis path")
+        d3.selectAll(".xy line")
             .style("stroke", "black")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-
-        d3.selectAll(".axis text")
+        d3.selectAll(".xy text")
             .style("font-family", "sans-serif")
             .style("font-size", "11px");
+
+        d3.selectAll(".xy .label")
+            .style("font-family", "sans-serif")
+            .style("font-size", "18px");
+
+
 
     }
 
@@ -633,11 +699,19 @@ many of them \\(-\\) and we can see this from playing with the following picture
                 .attr("r", 5)
                 .attr("fill", "black");
 
+
         // Add the x-axis
         var xAxisGroup = svg.append("g")
-            .attr("class", "x axis")
+            .attr("class", "x axis xy")
             .attr("transform", "translate(0," + yScale(0) + ")")
             .call(xAxis);
+
+        xAxisGroup.append("text")
+            .attr("class", "xy label")
+            .text("x")
+            .attr("x", xScale(xDomain[1] - 0.08))
+            .attr("y", 18)
+            .attr("text-anchor", "center");
 
         // // Attempt to add arrowheads
         // xAxisGroup.select("path")
@@ -646,29 +720,39 @@ many of them \\(-\\) and we can see this from playing with the following picture
 
 
         // Add the y-axis
-        svg.append("g")
-            .attr("class", "y axis")
+        var yAxisGroup = svg.append("g")
+            .attr("class", "y axis xy")
             .attr("transform", "translate(" + xScale(0) + ",0)")
             .call(yAxis);
 
+        yAxisGroup.append("text")
+            .attr("class", "xy label")
+            .text("y")
+            .attr("x", -18)
+            .attr("y", yScale(yDomain[1] - 0.1))
+            .attr("text-anchor", "center");
+
 
         // Style the axes
-        d3.selectAll(".axis line")
+        d3.selectAll(".xy path")
             .style("stroke", "black")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-        d3.selectAll(".axis path")
+        d3.selectAll(".xy line")
             .style("stroke", "black")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-
-        d3.selectAll(".axis text")
+        d3.selectAll(".xy text")
             .style("font-family", "sans-serif")
             .style("font-size", "11px");
+
+        d3.selectAll(".xy .label")
+            .style("font-family", "sans-serif")
+            .style("font-size", "18px");
 
 
         // =========== Slider code below here ================
@@ -791,7 +875,7 @@ says exactly that there are infinitely many lines in the \\((x,y)\\)-plane passi
 
         var yAxis = d3.svg.axis()
                       .scale(yScale)
-                      .tickValues([0.5, 1, 1.5])
+                      .tickValues([0.5, 1])
                       .orient("left");
 
 
@@ -823,18 +907,19 @@ says exactly that there are infinitely many lines in the \\((x,y)\\)-plane passi
                     //     .attr("stroke", "blue")
                     //     .style("fill", "blue");
 
+
         // Add the x-axis
         var xAxisGroup = svg.append("g")
-            .attr("class", "x axis")
+            .attr("class", "m mb axis")
             .attr("transform", "translate(0," + yScale(0) + ")")
             .call(xAxis);
 
         xAxisGroup.append("text")
+            .attr("class", "mb label")
             .text("m")
-            .attr("x", xScale(1.4))
-            .attr("y", 20)
+            .attr("x", xScale(xDomain[1] - 0.09))
+            .attr("y", 18)
             .attr("text-anchor", "center");
-
 
         // // Attempt to add arrowheads
         // xAxisGroup.select("path")
@@ -844,34 +929,42 @@ says exactly that there are infinitely many lines in the \\((x,y)\\)-plane passi
 
         // Add the y-axis
         var yAxisGroup = svg.append("g")
-            .attr("class", "y axis")
+            .attr("class", "m mb axis")
             .attr("transform", "translate(" + xScale(0) + ",0)")
             .call(yAxis);
 
         yAxisGroup.append("text")
+            .attr("class", "mb label")
             .text("b")
-            .attr("x", 10)
-            .attr("y", yScale(1.4))
+            .attr("x", -18)
+            .attr("y", yScale(yDomain[1] - 0.09))
             .attr("text-anchor", "center");
 
 
         // Style the axes
-        svg.selectAll(".axis line")
+        d3.selectAll(".mb path")
             .style("stroke", "red")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-        svg.selectAll(".axis path")
+        d3.selectAll(".mb line")
             .style("stroke", "red")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-
-        svg.selectAll(".axis text")
+        d3.selectAll(".mb text")
             .style("font-family", "sans-serif")
             .style("font-size", "11px");
+
+        d3.selectAll(".mb .label")
+            .style("fill", "red")
+            .style("font-family", "sans-serif")
+            .style("font-size", "18px");
+
+///===========
+
 
     }
 
@@ -976,7 +1069,7 @@ line through \\(P=(2,1)\\) we need to find the smallest radius circle centered a
 
         var yAxis = d3.svg.axis()
                       .scale(yScale)
-                      .tickValues([0.5, 1, 1.5])
+                      .tickValues([0.5, 1])
                       .orient("left");
 
 
@@ -1020,18 +1113,19 @@ line through \\(P=(2,1)\\) we need to find the smallest radius circle centered a
                         .attr("stroke-width", 1);
 
     
+
         // Add the x-axis
         var xAxisGroup = svg.append("g")
-            .attr("class", "x axis")
+            .attr("class", "m mb axis")
             .attr("transform", "translate(0," + yScale(0) + ")")
             .call(xAxis);
 
         xAxisGroup.append("text")
+            .attr("class", "mb label")
             .text("m")
-            .attr("x", xScale(1.4))
-            .attr("y", 20)
+            .attr("x", xScale(xDomain[1] - 0.06))
+            .attr("y", 18)
             .attr("text-anchor", "center");
-
 
         // // Attempt to add arrowheads
         // xAxisGroup.select("path")
@@ -1041,34 +1135,39 @@ line through \\(P=(2,1)\\) we need to find the smallest radius circle centered a
 
         // Add the y-axis
         var yAxisGroup = svg.append("g")
-            .attr("class", "y axis")
+            .attr("class", "m mb axis")
             .attr("transform", "translate(" + xScale(0) + ",0)")
             .call(yAxis);
 
         yAxisGroup.append("text")
+            .attr("class", "mb label")
             .text("b")
-            .attr("x", 10)
-            .attr("y", yScale(1.4))
+            .attr("x", -18)
+            .attr("y", yScale(yDomain[1] - 0.06))
             .attr("text-anchor", "center");
 
 
         // Style the axes
-        svg.selectAll(".axis line")
+        d3.selectAll(".mb path")
             .style("stroke", "red")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-        svg.selectAll(".axis path")
+        d3.selectAll(".mb line")
             .style("stroke", "red")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-
-        svg.selectAll(".axis text")
+        d3.selectAll(".mb text")
             .style("font-family", "sans-serif")
             .style("font-size", "11px");
+
+        d3.selectAll(".mb .label")
+            .style("fill", "red")
+            .style("font-family", "sans-serif")
+            .style("font-size", "18px");
 
 
         // =========== Slider code below here ================
@@ -1283,7 +1382,7 @@ in the \\((m,b)\\)-plane.
 
         var yAxis = d3.svg.axis()
                       .scale(yScale)
-                      .tickValues([0.5, 1, 1.5])
+                      .tickValues([0.5, 1])
                       .orient("left");
 
 
@@ -1341,16 +1440,16 @@ in the \\((m,b)\\)-plane.
 
         // Add the x-axis
         var xAxisGroup = svg.append("g")
-            .attr("class", "x axis")
+            .attr("class", "m mb axis")
             .attr("transform", "translate(0," + yScale(0) + ")")
             .call(xAxis);
 
         xAxisGroup.append("text")
+            .attr("class", "mb label")
             .text("m")
-            .attr("x", xScale(1.4))
-            .attr("y", 20)
+            .attr("x", xScale(xDomain[1] - 0.06))
+            .attr("y", 18)
             .attr("text-anchor", "center");
-
 
         // // Attempt to add arrowheads
         // xAxisGroup.select("path")
@@ -1360,34 +1459,39 @@ in the \\((m,b)\\)-plane.
 
         // Add the y-axis
         var yAxisGroup = svg.append("g")
-            .attr("class", "y axis")
+            .attr("class", "m mb axis")
             .attr("transform", "translate(" + xScale(0) + ",0)")
             .call(yAxis);
 
         yAxisGroup.append("text")
+            .attr("class", "mb label")
             .text("b")
-            .attr("x", 10)
-            .attr("y", yScale(1.4))
+            .attr("x", -18)
+            .attr("y", yScale(yDomain[1] - 0.06))
             .attr("text-anchor", "center");
 
 
         // Style the axes
-        svg.selectAll(".axis line")
+        d3.selectAll(".mb path")
             .style("stroke", "red")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-        svg.selectAll(".axis path")
+        d3.selectAll(".mb line")
             .style("stroke", "red")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-
-        svg.selectAll(".axis text")
+        d3.selectAll(".mb text")
             .style("font-family", "sans-serif")
             .style("font-size", "11px");
+
+        d3.selectAll(".mb .label")
+            .style("fill", "red")
+            .style("font-family", "sans-serif")
+            .style("font-size", "18px");
 
 
         // =========== Slider code below here ================
@@ -1664,9 +1768,16 @@ coefficients small but also has a strong preference for some coefficients to be 
 
         // Add the x-axis
         var xAxisGroup = svg.append("g")
-            .attr("class", "x axis")
+            .attr("class", "x axis xy")
             .attr("transform", "translate(0," + yScale(0) + ")")
             .call(xAxis);
+
+        xAxisGroup.append("text")
+            .attr("class", "xy label")
+            .text("x")
+            .attr("x", xScale(xDomain[1] - 0.08))
+            .attr("y", 18)
+            .attr("text-anchor", "center");
 
         // // Attempt to add arrowheads
         // xAxisGroup.select("path")
@@ -1675,29 +1786,39 @@ coefficients small but also has a strong preference for some coefficients to be 
 
 
         // Add the y-axis
-        svg.append("g")
-            .attr("class", "y axis")
+        var yAxisGroup = svg.append("g")
+            .attr("class", "y axis xy")
             .attr("transform", "translate(" + xScale(0) + ",0)")
             .call(yAxis);
 
+        yAxisGroup.append("text")
+            .attr("class", "xy label")
+            .text("y")
+            .attr("x", -18)
+            .attr("y", yScale(yDomain[1] - 0.1))
+            .attr("text-anchor", "center");
+
 
         // Style the axes
-        d3.selectAll(".axis line")
+        d3.selectAll(".xy path")
             .style("stroke", "black")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-        d3.selectAll(".axis path")
+        d3.selectAll(".xy line")
             .style("stroke", "black")
             .style("stroke-width", 2)
             .style("fill", "none")
             .style("shape-rendering", "crispEdges");
 
-
-        d3.selectAll(".axis text")
+        d3.selectAll(".xy text")
             .style("font-family", "sans-serif")
             .style("font-size", "11px");
+
+        d3.selectAll(".xy .label")
+            .style("font-family", "sans-serif")
+            .style("font-size", "18px");
 
 
     }
@@ -1730,6 +1851,60 @@ For the reader looking to try their hand at working out some examples on their o
        
 - For which points \\(P\\) is the best \\(L^1\\) regularized line through \\(P\\) not unique?  What conditions does \\(L^1\\)-regularization impose at these points?
 
+
+
+<style type="text/css">
+
+        // Style the axes
+        d3.selectAll(".axis line")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .style("fill", "none")
+            .style("shape-rendering", "crispEdges");
+
+        d3.selectAll(".axis path")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .style("fill", "none")
+            .style("shape-rendering", "crispEdges");
+
+
+        d3.selectAll(".axis text")
+            .style("font-family", "sans-serif")
+            .style("font-size", "11px");
+
+
+
+        // Style the axes
+        d3.selectAll(".xy")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .style("fill", "none")
+            .style("shape-rendering", "crispEdges")
+            .style("font-family", "sans-serif")
+            .style("font-size", "11px");
+
+
+
+        // Style the mb axes
+        svg.selectAll(".mb line")
+            .style("stroke", "red")
+            .style("stroke-width", 2)
+            .style("fill", "none")
+            .style("shape-rendering", "crispEdges");
+
+        svg.selectAll(".mb path")
+            .style("stroke", "red")
+            .style("stroke-width", 2)
+            .style("fill", "none")
+            .style("shape-rendering", "crispEdges");
+
+
+        svg.selectAll(".mb text")
+            .style("font-family", "sans-serif")
+            .style("font-size", "11px");
+
+</style>
 
 
 
