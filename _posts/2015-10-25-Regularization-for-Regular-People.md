@@ -1103,10 +1103,12 @@ line through \\(P=(2,1)\\) we need to find the smallest radius circle centered a
 
 
         // Draw a fitting circle
-        var myCircle = svg.append("circle")
+        var initialCircleRadius = 1.0;
+        var myCircle = svg.append("ellipse")
                         .attr("cx", xScale(0))
                         .attr("cy", yScale(0))
-                        .attr("r", 50)
+                        .attr("rx", Math.abs(xScale(initialCircleRadius) - xScale(0)))
+                        .attr("ry", Math.abs(yScale(initialCircleRadius) - yScale(0)))
                         .attr("fill", "none")
                         .attr("stroke-dasharray", "5,5")
                         .attr("stroke", "blue")
@@ -1176,11 +1178,11 @@ line through \\(P=(2,1)\\) we need to find the smallest radius circle centered a
 
         // when the input range changes update the angle 
         d3.select("#jTwo").on("input", function() {
-          updateJ1(+this.value);
+          updateJ2(+this.value);
         });
 
         // Initial starting angle of the text and empty array of intersection points
-        updateJ1(1.0);
+        updateJ2(1.0);
         var intersectionPointArray = [[1.0, 1.0], [1.1, 1.1]];
 
 
@@ -1197,7 +1199,7 @@ line through \\(P=(2,1)\\) we need to find the smallest radius circle centered a
 
 
         // update the element
-        function updateJ1(jTwo) {
+        function updateJ2(jTwo) {
 
           // create the new radius with two digit precision
           var rSqrt = Math.sqrt(jTwo);
@@ -1214,7 +1216,8 @@ line through \\(P=(2,1)\\) we need to find the smallest radius circle centered a
 
           // Change the circle radius
           myCircle
-            .attr("r", xScale(Math.sqrt(jTwo)) - xScale(0));
+            .attr("rx", Math.abs(xScale(Math.sqrt(jTwo)) - xScale(0)))
+            .attr("ry", Math.abs(yScale(Math.sqrt(jTwo)) - yScale(0)));
 
           // Compute the intersection quadratic for m.
           //
