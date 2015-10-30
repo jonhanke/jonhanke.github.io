@@ -1551,7 +1551,9 @@ in the \\((m,b)\\)-plane.
           // b = m - r
           // 2*m + b = 1  -->  m = (1+r)/3,  b = (1-2r)/3
           //
-
+          // b = m + r
+          // 2*m + b = 1  -->  m = (1-r)/3,  b = (1+2*r)/3
+          //
           // Change the circle coloring based on the number of roots
           console.log("r = ", r);
           if (r == 0.5) {
@@ -1565,7 +1567,7 @@ in the \\((m,b)\\)-plane.
           // Compute the intersection point coordinates
           if (r < 0.5) {
             intersectionPointArray =[];
-          } else {
+          } else if (r < 1.0) {
             var m1 = 1 - r;
             var b1 = -1 + 2*r;
             var m2 = (1 + r) / 3;
@@ -1574,6 +1576,14 @@ in the \\((m,b)\\)-plane.
 
             console.log("intersectionPointArray = ", intersectionPointArray);
 
+          } else {
+            var m1 = (1 - r)/3;
+            var b1 = (1 + 2*r)/3;
+            var m2 = (1 + r) / 3;
+            var b2 = (1 - 2*r) / 3;
+            var intersectionPointArray = [[m1, b1], [m2, b2]];
+
+            console.log("intersectionPointArray = ", intersectionPointArray);            
           }
 
 
