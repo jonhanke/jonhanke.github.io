@@ -8,13 +8,13 @@ title: Regularization for regular people
  -->
 
 The idea of “regularization" is often spoken about in the world 
-of Machine Learning as a way of “tuning" models or “preventing overfitting",
+of Machine Learning as a way of tuning models or preventing overfitting,
 but the precise meaning of this is usually not spoken about, or at least 
 not in terms that any regular person would be happy to hear.  
 
 In this blog post, we'll take a look at the meaning of regularization 
-and work out in full detail all of the nuances of how various kinds 
-(let's call them “flavors") of regularization allows us to answer the question:
+and work out in full detail how the two main kinds 
+of regularization allow us to answer the question:
 
 \\[
 \text{What is the “best" line going through a given point in the plane?}
@@ -341,8 +341,8 @@ by cutting down on the amount of freedom that you have.
 ## Flavors of Regularization
 
 In the world of mathematical modelling, we usually have some data and we're trying 
-to decide among possible ways of “best understanding" it from a certain perspective.  
-The _perspective_ we use to understand the data is our given choice of mathematical model, 
+to decide among possible ways of “best understanding" it from a certain perspective.  The 
+_perspective_ we use to understand the data is our choice of mathematical model, 
 and the way we have of _best understanding_ it is from this perspective what machine 
 learning calls the “best fit" model.  It's the best choice of how to undersand the data 
 with this model.
@@ -353,7 +353,7 @@ the \\(y\\)-values of all of them as closely as possible.  This perspective form
 name of Linear Regression.
 
 In general, once we have three points it's impossible to find a line that goes through all 
-threee of them, and the “best" line is given by minimizing the “sum of the squares error" 
+three of them, and the “best" line is given by minimizing the “sum of the squares error" 
 between the \\(y\\)-values of the line and the points for each of their \\(x\\)-values.  There are 
 several well-known ways of finding this best line, but we'll settle here for a beautiful picture.
 
@@ -380,8 +380,8 @@ several well-known ways of finding this best line, but we'll settle here for a b
             height = svgHeight - margin.top - margin.bottom;
 
         // Set the x-y plane region to show
-        var xDomain = [-0.5, 2.5];
-        var yDomain = [-0.5, 2.5];
+        var xDomain = [-0.5, 3.5];
+        var yDomain = [-0.5, 3.5];
         var myPoint = [1, 1];
 
 
@@ -392,7 +392,7 @@ several well-known ways of finding this best line, but we'll settle here for a b
         var xAxis = d3.svg.axis()
                       .scale(xScale)
                       // .outerTickSize(1)
-                      .tickValues([1, 2])
+                      .tickValues([1, 2, 3])
                       // .tickFormat(",.0f")
                       .orient("bottom");
 
@@ -403,7 +403,7 @@ several well-known ways of finding this best line, but we'll settle here for a b
 
         var yAxis = d3.svg.axis()
                       .scale(yScale)
-                      .tickValues([1, 2])
+                      .tickValues([1, 2, 3])
                       .orient("left");
 
 
@@ -447,12 +447,13 @@ several well-known ways of finding this best line, but we'll settle here for a b
             .style("border-color", "black");
 
 
-        // Draw a line through the point P.
+        // Draw the best fit line for the three points.
+        function bestLine(x) { return 1 + x/2 };
         svg.append("line")
-                    .attr("x1", xScale(0.5))
-                    .attr("y1", yScale(0.5))
-                    .attr("x2", xScale(1.5))
-                    .attr("y2", yScale(1.5))
+                    .attr("x1", xScale(0.3))
+                    .attr("y1", yScale(bestLine(0.3)))
+                    .attr("x2", xScale(3.3))
+                    .attr("y2", yScale(bestLine(3.3)))
                     .attr("marker-start", "url(#triangle-start)")
                     .attr("marker-end", "url(#triangle-end)")
                     .attr("stroke", "black")
@@ -471,12 +472,12 @@ several well-known ways of finding this best line, but we'll settle here for a b
         //     .attr("text-anchor", "left");
 
         // Draw the points on top
-        var pointArray = [[1,1], [1.3,1], [0.5,0.3]];
+        var pointArray = [[1,1], [2,3], [3,2]];
         svg.selectAll("circle")
             .data(pointArray)
             .enter().append("circle")
                 .attr("cx", function(d) { return xScale(d[0]);})
-                .attr("cy", function(d) { return xScale(d[1]);})
+                .attr("cy", function(d) { return yScale(d[1]);})
                 .attr("r", 5)
                 .attr("fill", "black");
 
@@ -490,7 +491,7 @@ several well-known ways of finding this best line, but we'll settle here for a b
         xAxisGroup.append("text")
             .attr("class", "xy label")
             .text("x")
-            .attr("x", xScale(xDomain[1] - 0.08))
+            .attr("x", xScale(xDomain[1] - 0.11))
             .attr("y", 18)
             .attr("text-anchor", "center");
 
@@ -510,7 +511,7 @@ several well-known ways of finding this best line, but we'll settle here for a b
             .attr("class", "xy label")
             .text("y")
             .attr("x", -18)
-            .attr("y", yScale(yDomain[1] - 0.1))
+            .attr("y", yScale(yDomain[1] - 0.12))
             .attr("text-anchor", "center");
 
 
@@ -550,9 +551,10 @@ several well-known ways of finding this best line, but we'll settle here for a b
 </center>
  -->
 
-
-If you want to play with this, you can pick three points in the plane 
+{% comment %}
+TO DO: If you want to play with this, you can pick three points in the plane 
 and the app will update to show the best line through them.
+{% endcomment %}
 
 
 In addition to this “standard" minimization problem of finding the best line, there are 
