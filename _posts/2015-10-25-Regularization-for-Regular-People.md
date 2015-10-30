@@ -1669,7 +1669,7 @@ From the picture we see that this happens when \\((m,b) = (\frac{1}{2}, 0)\\), s
 the point \\(P=(2,1)\\) is the line \\(y = \frac{1}{2}x\\).
 
 We notice that this has selected the feature of the slope \\(m\\), and has selected against the \\(y\\)-intercept \\(b\\) 
-(i.e. it preferred to have \\(m \neq 0\\) and \\(b=0\\).  This gives an example of why it is said 
+(i.e. it preferred to have \\(m \neq 0\\) and \\(b=0\\)).  This gives an example of why it is said 
 that \\(L^1\\)-regularization performs feature selection.  
 
 
