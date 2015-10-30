@@ -1360,10 +1360,11 @@ J\_1(m,b) = \underbrace{\sum\_{i=1}^n ((mx^{(i)} + b) - y^{(i)})^2}\_{\text{Sum 
 \\[ BLAH = SSE + L^1-term. \\]
  -->
 
-For the same reasons as in the \\(L^2\\) case (i.e. the data is overfit, and \\(\lambda\\) can be taken to be 1) 
-the SSE term is zero and we are left with minimizing the function \\(J\_1(m,b) = |m| + |b|\\).  The level sets 
-of this function are diamonds (i.e. squares rotated by 45 degrees) centered at the origin, and again 
-(as in the \\(L^2\\) case) the size of \\(J\_1(m,b)\\) grows with the size of the diamond.  Therefore the 
+For the same reasons as in the \\(L^2\\) case (i.e. the data is overfit, so we can take \\(\lambda=1\\)) 
+the sum of squared errors term is zero and we are left with minimizing the function 
+\\(J\_1(m,b) = |m| + |b|\\).  The level sets 
+of this function are square diamonds centered at the origin, and 
+(as in the \\(L^2\\) case) the size of \\(J\_1(m,b)\\) grows with the width of the diamond.  Therefore the 
 minimum value of \\(J\_1\\) 
 for lines passing through the point \\(P = (2,1)\\) occurs where the smallest diamond touches the line \\(2m + b = 1\\) 
 in the \\((m,b)\\)-plane.  
@@ -1668,8 +1669,8 @@ From the picture we see that this happens when \\((m,b) = (\frac{1}{2}, 0)\\), s
 the point \\(P=(2,1)\\) is the line \\(y = \frac{1}{2}x\\).
 
 We notice that this has selected the feature of the slope \\(m\\), and has selected against the \\(y\\)-intercept \\(b\\) 
-(i.e. it preferred to have m non-zero and \\(b=0\\).  This gives an example of why it is said that \\(L^1\\)-regularization 
-performs feature selection.  
+(i.e. it preferred to have \\(m \neq 0\\) and \\(b=0\\).  This gives an example of why it is said 
+that \\(L^1\\)-regularization performs feature selection.  
 
 
 ## Conclusion
@@ -1885,8 +1886,9 @@ coefficients small but also has a strong preference for some coefficients to be 
 
 
 
-In general it's not as easy to visually see what's going on in a regularization, but one can imagine that it's something 
-very similar to what we can see in this example.  Hopefully this kind of intuition is helpful 
+While in general it's not as easy to visually see what's going on in a regularization, 
+one can imagine that it's something very similar to what we can see in this example.  Hopefully 
+this kind of intuition is helpful 
 to the reader when deciding what kinds of regularization(s) to use when approaching a model, 
 and particularly a model that is overfit to some given data.  Thanks for reading!
 
