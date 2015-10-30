@@ -558,11 +558,12 @@ and the app will update to show the best line through them.
 
 
 In addition to this “standard" minimization problem of finding the best line, there are 
-two flavors of regluarization that people often impose to give preference to lines 
-whose coefficients are small.  These are somewhat unintuitively called “\\(L^1\\)" and “\\(L^2\\)" 
-regularization (or equally unintuitively “Lasso" and “Ridge" regression).  They involve 
+two flavors of regularization that people often impose to give preference to lines 
+whose coefficients are small.  These are somewhat unintuitively called \\(\text{“}L^1\text{"}\\) 
+and \\(\text{“}L^2\text{"}\\)-regularization (pronounced as “L one" and “L two", 
+or equally unintuitively called “Lasso" and “Ridge" regression).  They involve 
 imposing a certain kind of penalty for choosing lines whose coefficients are large.  Mathematically 
-this involves adding a penalty that is either the “\\(L^1\\)"-norm or “\\(L^2\\)"-norm 
+this involves adding a penalty that is either the \\(\text{“}L^1\text{"}\\)-norm or \\(\text{“}L^2\text{"}\\)-norm 
 of the coefficients, and has the general cost function formulas
 
 {% comment %}
@@ -588,7 +589,8 @@ where we're given $n$ data points named $P^{(i)}$ with coordinates $(x^{(i)}, y^
 If this is not so enlightning, don't worry, most people would agree with you!  In the next section 
 we'll explain what this means and what it does in the simplest possible example -- the 
 underdetermined line through one point.  For now I'll just remind you of the often repeated 
-general wisdom about these regularizations:  “\\(L^1\\)" is for feature selection and “\\(L^2\\)" is for small coefficients.
+general wisdom about these regularizations:  \\(\text{“}L^1\text{"}\\) is for feature selection 
+and \\(\text{“}L^2\text{"}\\) is for small coefficients.
 
 
 
@@ -811,8 +813,9 @@ lines in the plane as all being of the form \\(y=mx+b\\) for some numbers \\(m\\
 and imagine a separate \\((m,b)\\)-plane.  This is the “parameter space" of lines in the plane, and here any point \\((m,b)\\) in the 
 \\((m,b)\\)-plane corresponds to one line (i.e. \\(y=mx+b\\)) in the usual \\((x,y)\\)-plane.  It's kind of fun to be able to talk about all lines 
 in the plane at once, but this “parameter space" language also allows us to write down explicitly which lines in the plane
-pass through the given point \\(P\\).  It's the points in the \\((m,b)\\)-plane that describe lines where \\(y = mx + b\\) 
-have the point \\(P = (x,y) = (2,1)\\), or equivalently where \\(1 = m \cdot 2 + b\\).
+pass through the given point \\(P\\).  It's the points in the \\((m,b)\\)-plane where the associated line \\(y = mx + b\\) 
+contains the given point \\(P = (x,y) = (2,1)\\), or equivalently, the points in the \\((m,b)\\)-plane 
+satisfying the equation \\(1 = m \cdot 2 + b\\).
 
 {% comment %}
 \\[
@@ -822,10 +825,18 @@ or equivalently where $1 = m \cdot 2 + b$.}
 {% endcomment %}
 
 
-This means that in the \\((m,b)\\) “parameter space" plane the lines passing through the point \\(P = (2,1)\\) are described by 
-the points that satisfy the equation \\(2m + b = 1\\).  The fact that there are infinitely many points on the line \\(2m+b=1\\)
-says exactly that there are infinitely many lines in the \\((x,y)\\)-plane passing through the point \\(P = (2,1)\\).
+This means that the lines passing through the point \\(P = (2,1)\\) are described in 
+the \\((m,b)\\) “parameter space" by the points satisfying the equation \\(2m + b = 1\\).  Since 
+there are infinitely many points on the line \\(2m+b=1\\), we again see that 
+there are infinitely many lines in the \\((x,y)\\)-plane 
+passing through the point \\(P = (2,1)\\).
 
+{% comment %}
+The 
+fact that there are infinitely many points on the line \\(2m+b=1\\)
+says exactly that there are infinitely many lines in the \\((x,y)\\)-plane 
+passing through the point \\(P = (2,1)\\).
+{% endcomment %}
 
 
 <center>
