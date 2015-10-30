@@ -1844,8 +1844,8 @@ coefficients small but also has a strong preference for some coefficients to be 
 
 
 
-In general it's a not as clear to “see" what's going on, but one can imagine that it's something 
-that “very similar to" what we see in this example.  Hopefully this kind of intuition is helpful 
+In general it's not as easy to visually see what's going on in a regularization, but one can imagine that it's something 
+very similar to what we can see in this example.  Hopefully this kind of intuition is helpful 
 to the reader when deciding what kinds of regularization(s) to use when approaching a model, 
 and particularly a model that is overfit to some given data.  Thanks for reading!
 
