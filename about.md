@@ -14,6 +14,11 @@ from both theoretical and computational perspectives.  I have a passion for unde
 
 ### More Information
 
+Since May 2015 I've been working as a senior data scientist at Metis teaching a 12-week bootcamp helping amazing individuals 
+become data scientists.  I also teach a freshman seminar at Princeton on 
+["Secrecy, Search and Society"](https://www.princeton.edu/pub/frs/ay201516/fall-courses/index.xml#compfrs185) 
+that explores how mathematical algorithms shape the social context of our modern society.
+
 I've taught mathematics at Princeton, Rutgers, Duke, and the University of Georgia, and have held visiting research positions 
 at several mathematics research institutes ([MSRI](http://www.msri.org), Max Planck Institute in Bonn).  I am also regularly 
 involved with the [PROMYS summer program](http://www.promys.org) for high school students, based at Boston University, 
@@ -23,12 +28,7 @@ My research in Number Theory has focused on the study of quadratic forms over th
 proved the [290-Theorem](https://en.wikipedia.org/wiki/15_and_290_theorems) in collaboration with recent Fields Medalist 
 M. Bharagava, written the Wikipedia page on [Stochastic Portfolio Theory](https://en.wikipedia.org/wiki/Stochastic_portfolio_theory) 
 (in collaboration with E. Robert Fernholz and I. Karatzas), and wrote the <tt>QuadraticForm</tt> class for the [SAGE](http://www.sagemath.org) 
-open-source computer algebra system.  
-
-Since May 2015 I've been working as a senior data scientist at Metis teaching a 12-week bootcamp helping amazing individuals 
-become data scientists.  I also teach a freshman seminar at Princeton on 
-["Secrecy, Search and Society"](https://www.princeton.edu/pub/frs/ay201516/fall-courses/index.xml#compfrs185) 
-that explores how mathematical algorithms shape the social context of our modern society.
+open-source computer algebra system.  My papers are available online [here](http://papers.jonhanke.com).
 
 
 ### Contact me
